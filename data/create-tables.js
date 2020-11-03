@@ -19,9 +19,11 @@ async function run() {
                 );           
                 CREATE TABLE astrology (
                     id SERIAL PRIMARY KEY NOT NULL,
-                    ruling_planet VARCHAR(512) NOT NULL,
-                    mode_fixed INTEGER NOT NULL,
-                    chill_level INTEGER NOT NULL REFERENCES users(id)
+                    sign VARCHAR NOT NULL,
+                    ruling_planet VARCHAR(20) NOT NULL,
+                    mode_fixed BOOLEAN NOT NULL,
+                    chill_level INTEGER NOT NULL,
+                    owner_id INTEGER NOT NULL REFERENCES users(id)
             );
         `);
 

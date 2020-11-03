@@ -21,6 +21,6 @@ module.exports = [
     sign: 'scorpio',
     ruling_planet: 'pluto',
     mode_fixed: true,
-    chill_level: -10,
+    chill_level: 0,
   }
 ];

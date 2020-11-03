@@ -28,9 +28,9 @@ async function run() {
       astrology.map(astrology => {
         return client.query(`
                     INSERT INTO astrology (sign, ruling_planet, mode_fixed, chill_level, owner_id)
-                    VALUES ($1, $2, $3);
+                    VALUES ($1, $2, $3, $4, $5);
                 `,
-        [astrology.name, astrology.ruling_planet, astrology.mode_fixed, astrology.chill_level, user.id]);
+        [astrology.sign, astrology.ruling_planet, astrology.mode_fixed, astrology.chill_level, user.id]);
       })
     );
     

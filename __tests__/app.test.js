@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const { execSync } = require('child_process');
+const { SIGINT } = require('constants');
 
 const fakeRequest = require('supertest');
 const app = require('../lib/app');
@@ -31,34 +32,149 @@ describe('app routes', () => {
       return client.end(done);
     });
 
-  test('returns animals', async() => {
+    test('returns astrology', async() => {
 
-    const expectation = [
-      {
-        'id': 1,
-        'name': 'bessie',
-        'coolfactor': 3,
-        'owner_id': 1
-      },
-      {
-        'id': 2,
-        'name': 'jumpy',
-        'coolfactor': 4,
-        'owner_id': 1
-      },
-      {
-        'id': 3,
-        'name': 'spot',
-        'coolfactor': 10,
-        'owner_id': 1
-      }
-    ];
+      const expectation = [
+        {
+          id: 1,
+          sign: 'taurus',
+          ruling_planet: 'venus',
+          mode_fixed: true, 
+          chill_level: 10,
+          owner_id: 1
+        },
+        {
+          id: 2,
+          sign: 'aquarius',
+          ruling_planet: 'uranus',
+          mode_fixed: true, 
+          chill_level: 3,
+          owner_id: 1
+        },
+        {
+          id: 3,
+          sign: 'leo',
+          ruling_planet: 'sun',
+          mode_fixed: true, 
+          chill_level: 5,
+          owner_id: 1
+        },
+        {
+          id: 4,
+          sign: 'scorpio',
+          ruling_planet: 'pluto',
+          mode_fixed: true, 
+          chill_level: 0,
+          owner_id: 1
+        },
+      ];
 
-    const data = await fakeRequest(app)
-      .get('/animals')
-      .expect('Content-Type', /json/)
-      .expect(200);
+      const data = await fakeRequest(app)
+        .get('/astrology/')
+        .expect('Content-Type', /json/)
+        .expect(200);
 
-    expect(data.body).toEqual(expectation);
+      expect(data.body).toEqual(expectation);
+    });
+
+
+    //GET TEST
+    test('returns a single astrology sign', async() => {
+      const expectation = {
+        
+        id: 1,
+        sign: 'taurus',
+        ruling_planet: 'venus',
+        mode_fixed: true, 
+        chill_level: 10,
+        owner_id: 1
+        
+      };
+  
+      const data = await fakeRequest(app)
+        .get('/astrology/1')
+        .expect('Content-Type', /json/)
+        .expect(200);
+  
+      expect(data.body).toEqual(expectation);
+    });
+
+    //POST TEST
+    test.only('adds an astrology sign item to the DB and returns it', async() => {
+      const expectation = {
+        id: 5,
+        sign: 'gemini',
+        ruling_planet: 'mercury',
+        mode_fixed: false, 
+        chill_level: 0,
+        owner_id: 1
+      };
+
+      const data = await fakeRequest(app)
+        .post('/astrology')
+        .send({
+          sign: 'gemini',
+          ruling_planet: 'mercury',
+          mode_fixed: false, 
+          chill_level: 0,
+          owner_id: 1
+        })
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      const allSigns = await fakeRequest(app)
+        .get('/astrology')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+
+      expect(data.body).toEqual(expectation);
+      expect(allSigns.body.length).toEqual(5);
+
+    });
+
+
+    //PUT TEST
+    test.only('adds an astrology sign item to the DB and returns it', async() => {
+   
+      const data = await fakeRequest(app)
+        .put('/astrology/1')
+        .send({
+          sign: 'gemini',
+          ruling_planet: 'mercury',
+          mode_fixed: false, 
+          chill_level: 0,
+          owner_id: 1
+        })
+        .expect('Content-Type', /json/)
+        .expect(200);
+    
+      const signItem = await fakeRequest(app)
+        .get('/astrology/1')
+        .expect('Content-Type', /json/)
+        .expect(200);
+    
+    
+      expect(data.body).toEqual(signItem[0]);
+    
+    
+    });
+
+    test.only('deletes an astrology item by id', async() => {
+      const data = await fakeRequest(app)
+        .delete('/astrology/4')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      const allSigns = await fakeRequest(app)
+        .get('/astrology')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      expect(data.body).toEqual('');
+      expect(allSigns.body.length).toEqual(3);
+    });
+
+
   });
 });

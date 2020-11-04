@@ -32,7 +32,7 @@ describe('app routes', () => {
       return client.end(done);
     });
 
-    test('returns astrology', async() => {
+    test.only('returns astrology', async() => {
 
       const expectation = [
         {
@@ -79,7 +79,7 @@ describe('app routes', () => {
 
 
     //GET TEST
-    test('returns a single astrology sign', async() => {
+    test.only('returns a single astrology sign', async() => {
       const expectation = {
         
         id: 1,

@@ -28,6 +28,17 @@ async function run() {
     const user = users[0].rows[0];
 
     await Promise.all(
+      signs.map(item => {
+        return client.query(`
+                    INSERT INTO signs (sign)
+                    VALUES ($1)
+                    RETURNING *;
+                `,
+        [item.sign]);
+      })
+    );
+    
+    await Promise.all(
       astrology.map(astrology => {
         return client.query(`
                     INSERT INTO astrology (sign_id, ruling_planet, mode_fixed, chill_level, owner_id)
@@ -37,16 +48,7 @@ async function run() {
       })
     );
 
-    await Promise.all(
-      signs.map(item => {
-        return client.query(`
-                    INSERT INTO signs (sign)
-                    VALUES ($1);
-                    RETURNING *;
-                `,
-        [item.sign]);
-      })
-    );
+
     
     
 

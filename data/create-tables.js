@@ -17,14 +17,13 @@ async function run() {
                     email VARCHAR(256) NOT NULL,
                     hash VARCHAR(512) NOT NULL
                 );  
-                CREATE TABLE sign (
+                CREATE TABLE signs (
                   id SERIAL PRIMARY KEY,
-                  email VARCHAR(256) NOT NULL,
-                  name VARCHAR(512) NOT NULL
+                  sign VARCHAR(512) NOT NULL
               );            
                 CREATE TABLE astrology (
                     id SERIAL PRIMARY KEY NOT NULL,
-                    sign_id INTEGER NOT NULL REFERENCES sign(id),
+                    sign_id INTEGER NOT NULL REFERENCES signs(id),
                     ruling_planet VARCHAR(20) NOT NULL,
                     mode_fixed BOOLEAN NOT NULL,
                     chill_level INTEGER NOT NULL,

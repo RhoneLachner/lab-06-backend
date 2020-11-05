@@ -100,10 +100,10 @@ describe('app routes', () => {
     });
 
     //POST TEST
-    test.only('adds an astrology sign item to the DB and returns it', async() => {
+    test.skip('adds an astrology sign item to the DB and returns it', async() => {
       const expectation = {
         id: 5,
-        sign_id: 5,
+        sign_id: 4,
         ruling_planet: 'mercury',
         mode_fixed: false, 
         chill_level: 0,
@@ -114,7 +114,7 @@ describe('app routes', () => {
         .post('/astrology')
         .send({
           id: 5,
-          sign_id: 5,
+          sign_id: 4,
           ruling_planet: 'mercury',
           mode_fixed: false, 
           chill_level: 0,
@@ -136,18 +136,16 @@ describe('app routes', () => {
 
 
     //PUT TEST
-    test('adds an astrology sign item at a given ID to the DB and returns it', async() => {
+    test.only('adds an astrology sign item at a given ID to the DB and returns it', async() => {
    
-      
-
       const data = await fakeRequest(app)
         .put('/astrology/1')
         .send({
           id: 1,
           sign_id: 1,
-          ruling_planet: 'mercury',
-          mode_fixed: false, 
-          chill_level: 0,
+          ruling_planet: 'venus',
+          mode_fixed: true, 
+          chill_level: 10,
           owner_id: 1
         })
         .expect('Content-Type', /json/)

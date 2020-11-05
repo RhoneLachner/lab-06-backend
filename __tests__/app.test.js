@@ -83,7 +83,7 @@ describe('app routes', () => {
       const expectation = {
         
         id: 1,
-        sign: 'taurus',
+        sign_id: 'taurus',
         ruling_planet: 'venus',
         mode_fixed: true, 
         chill_level: 10,
@@ -103,7 +103,8 @@ describe('app routes', () => {
     test.only('adds an astrology sign item to the DB and returns it', async() => {
       const expectation = {
         id: 5,
-        sign: 'gemini',
+        //SHOULD SIGN_ID BE A NUMBER NOW????????
+        sign_id: 'gemini',
         ruling_planet: 'mercury',
         mode_fixed: false, 
         chill_level: 0,
@@ -113,7 +114,7 @@ describe('app routes', () => {
       const data = await fakeRequest(app)
         .post('/astrology')
         .send({
-          sign: 'gemini',
+          sign_id: 'gemini',
           ruling_planet: 'mercury',
           mode_fixed: false, 
           chill_level: 0,
@@ -140,7 +141,7 @@ describe('app routes', () => {
       const data = await fakeRequest(app)
         .put('/astrology/1')
         .send({
-          sign: 'gemini',
+          sign_id: 'gemini',
           ruling_planet: 'mercury',
           mode_fixed: false, 
           chill_level: 0,
@@ -160,6 +161,9 @@ describe('app routes', () => {
     
     });
 
+
+    //DELETE TEST
+  
     test.only('deletes an astrology item by id', async() => {
       const data = await fakeRequest(app)
         .delete('/astrology/4')

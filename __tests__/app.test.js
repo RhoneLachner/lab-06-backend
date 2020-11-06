@@ -142,6 +142,14 @@ describe('app routes', () => {
     //PUT TEST
     test('adds an astrology sign item at a given ID to the DB and returns it', async() => {
    
+      const expectation = {
+        id: 1,
+        sign_id: 1,
+        ruling_planet: 'taurus',
+        mode_fixed: true, 
+        chill_level: 10,
+        owner_id: 1
+      };
       const data = await fakeRequest(app)
         .put('/astrology/1')
         .send({
@@ -155,13 +163,13 @@ describe('app routes', () => {
         .expect('Content-Type', /json/)
         .expect(200);
     
-      const signItem = await fakeRequest(app)
+      await fakeRequest(app)
         .get('/astrology/1')
         .expect('Content-Type', /json/)
         .expect(200);
     
     
-      expect(data.body).toEqual(signItem.body[0]);
+      expect(data.body).toEqual(expectation);
     
     
     });
@@ -179,7 +187,7 @@ describe('app routes', () => {
         .get('/astrology')
         .expect('Content-Type', /json/)
         .expect(200);
-      expect(data.body).toEqual('');
+      expect(data.body).toEqual({ 'chill_level': 10, 'id': 1, 'mode_fixed': true, 'owner_id': 1, 'ruling_planet': 'taurus', 'sign_id': 1 });
 
     });
 

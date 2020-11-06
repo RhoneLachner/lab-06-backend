@@ -32,11 +32,12 @@ describe('app routes', () => {
       return client.end(done);
     });
     //TEST ALL
-    test.skip('returns astrology', async() => {
+    test('returns astrology', async() => {
 
       const expectation = [
         {
           id: 1,
+          sign_id: 1,
           sign: 'taurus',
           ruling_planet: 'venus',
           mode_fixed: true, 
@@ -45,6 +46,7 @@ describe('app routes', () => {
         },
         {
           id: 2,
+          sign_id: 2,
           sign: 'aquarius',
           ruling_planet: 'uranus',
           mode_fixed: true, 
@@ -53,6 +55,7 @@ describe('app routes', () => {
         },
         {
           id: 3,
+          sign_id: 3,
           sign: 'leo',
           ruling_planet: 'sun',
           mode_fixed: true, 
@@ -61,6 +64,7 @@ describe('app routes', () => {
         },
         {
           id: 4,
+          sign_id: 4,
           sign: 'scorpio',
           ruling_planet: 'pluto',
           mode_fixed: true, 
@@ -79,7 +83,7 @@ describe('app routes', () => {
 
 
     //GET TEST
-    test.skip('returns a single astrology sign', async() => {
+    test('returns a single astrology sign', async() => {
       const expectation = {
         
         id: 1,
@@ -100,7 +104,7 @@ describe('app routes', () => {
     });
 
     //POST TEST
-    test.skip('adds an astrology sign item to the DB and returns it', async() => {
+    test('adds an astrology sign item to the DB and returns it', async() => {
       const expectation = {
         id: 5,
         sign_id: 4,
@@ -136,15 +140,15 @@ describe('app routes', () => {
 
 
     //PUT TEST
-    test.only('adds an astrology sign item at a given ID to the DB and returns it', async() => {
+    test('adds an astrology sign item at a given ID to the DB and returns it', async() => {
    
       const data = await fakeRequest(app)
         .put('/astrology/1')
         .send({
-          id: 1,
+          
           sign_id: 1,
-          ruling_planet: 'venus',
-          mode_fixed: true, 
+          ruling_planet: 'taurus',
+          mode_fixed: true,
           chill_level: 10,
           owner_id: 1
         })
@@ -165,11 +169,11 @@ describe('app routes', () => {
 
     //DELETE TEST
   
-    test.skip('deletes an astrology item by id', async() => {
+    test('deletes an astrology item by id', async() => {
       const data = await fakeRequest(app)
         .delete('/astrology/1')
         .expect('Content-Type', /json/)
-        .expect(500);
+        .expect(200);
 
       await fakeRequest(app)
         .get('/astrology')
